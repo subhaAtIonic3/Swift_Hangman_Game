@@ -13,6 +13,7 @@
 		22F4DCDA24B1094200A1C8D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F4DCD824B1094200A1C8D4 /* Main.storyboard */; };
 		22F4DCDC24B1094400A1C8D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F4DCDB24B1094400A1C8D4 /* Assets.xcassets */; };
 		22F4DCDF24B1094400A1C8D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F4DCDD24B1094400A1C8D4 /* LaunchScreen.storyboard */; };
+		22F4DCE924B11D3500A1C8D4 /* level.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22F4DCE724B11D3500A1C8D4 /* level.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		22F4DCDB24B1094400A1C8D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22F4DCDE24B1094400A1C8D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22F4DCE024B1094400A1C8D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22F4DCE724B11D3500A1C8D4 /* level.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				22F4DCDB24B1094400A1C8D4 /* Assets.xcassets */,
 				22F4DCDD24B1094400A1C8D4 /* LaunchScreen.storyboard */,
 				22F4DCE024B1094400A1C8D4 /* Info.plist */,
+				22F4DCE724B11D3500A1C8D4 /* level.txt */,
 			);
 			path = Project_7_8_9_Combine;
 			sourceTree = "<group>";
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22F4DCE924B11D3500A1C8D4 /* level.txt in Resources */,
 				22F4DCDF24B1094400A1C8D4 /* LaunchScreen.storyboard in Resources */,
 				22F4DCDC24B1094400A1C8D4 /* Assets.xcassets in Resources */,
 				22F4DCDA24B1094200A1C8D4 /* Main.storyboard in Resources */,
