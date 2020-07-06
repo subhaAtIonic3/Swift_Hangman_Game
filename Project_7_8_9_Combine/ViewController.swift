@@ -16,8 +16,20 @@ class ViewController: UIViewController {
     var dataSet = [String]()
     var currentGameLevel: Int = 0
     var usedLetters = [String]()
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
+    var wrongAnswerCount = 0 {
+        didSet {
+            wrongLabel.text = "Wrong: \(wrongAnswerCount)"
+        }
+    }
     
     var displayLabel: UILabel!
+    var wrongLabel: UILabel!
+    var scoreLabel: UILabel!
     var hintLabel: UILabel!
     var lettersButtons = [UIButton]()
     let lettersArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
@@ -27,11 +39,20 @@ class ViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .white
         
+        wrongLabel = UILabel()
+        wrongLabel.translatesAutoresizingMaskIntoConstraints = false
+        wrongLabel.text = "Wrong: \(wrongAnswerCount)"
+        view.addSubview(wrongLabel)
+        
+        scoreLabel = UILabel()
+        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        scoreLabel.text = "Score: \(score)"
+        view.addSubview(scoreLabel)
+        
         displayLabel = UILabel()
         displayLabel.translatesAutoresizingMaskIntoConstraints = false
         displayLabel.text = ""
         displayLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
-//        displayLabel.backgroundColor = .lightGray
         view.addSubview(displayLabel)
         
         hintLabel = UILabel()
@@ -42,13 +63,17 @@ class ViewController: UIViewController {
         
         let buttonsView = UIView()
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
-//        buttonsView.backgroundColor = .green
         view.addSubview(buttonsView)
         
         
         NSLayoutConstraint.activate([
+            wrongLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            wrongLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 0),
+            
+            scoreLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            scoreLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: 0),
+            
             displayLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //            displayLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             
             hintLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             hintLabel.topAnchor.constraint(equalTo: displayLabel.bottomAnchor, constant: 40),
@@ -110,7 +135,7 @@ class ViewController: UIViewController {
     }
     
     func loadWordToGuess() {
-        if currentGameLevel <= dataSet.count {
+        if currentGameLevel < dataSet.count {
             let parts = dataSet[currentGameLevel].components(separatedBy: ":")
             
             word = parts[0]
@@ -138,11 +163,24 @@ class ViewController: UIViewController {
     }
     
     @objc func letterTapped(_ sender: UIButton) {
+        sender.isEnabled = false
         if let letter = sender.titleLabel?.text {
             print(letter)
-            if usedLetters.contains(letter) {
+            
+            if word.contains(letter) {
+                score += 1
+            } else {
+                score -= 1
+                wrongAnswerCount += 1
+            }
+            
+            if wrongAnswerCount == 7 {
+                let ac = UIAlertController(title: "Gave Over", message: nil, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "OK", style: .default, handler: reload))
+                present(ac, animated: true)
                 return
             }
+            
             displayModifiedString(usedLetter: letter)
         }
     }
@@ -155,27 +193,47 @@ class ViewController: UIViewController {
             let letterStr = String(letter)
             
             if usedLetters.contains(letterStr) {
-                print("inside if =>", displayedWord)
                 displayedWord += letterStr + " "
             } else {
-                print("inside else =>", displayedWord)
                 displayedWord += "? "
             }
         }
         
-        print("displayedWord =>", displayedWord)
         displayLabel.text = displayedWord
+        next()
         
     }
     
     func next() {
-        currentGameLevel += 1
+        if let text = displayLabel.text {
+            if text.contains("?") {
+                return
+            }
+            
+            resetData(fromNext: true)
+            loadWordToGuess()
+        }
     }
     
     func reload(action: UIAlertAction) {
+        resetData(fromNext: false)
         self.loadData()
     }
     
-    
+    func resetData(fromNext: Bool) {
+        if fromNext {
+            currentGameLevel += 1
+        } else {
+            currentGameLevel = 0
+            score = 0
+        }
+        wrongAnswerCount = 0
+        displayWord = ""
+        usedLetters = [String]()
+        
+        for button in lettersButtons {
+            button.isEnabled = true
+        }
+    }
 }
 
