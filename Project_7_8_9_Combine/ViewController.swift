@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var displayWord: String = ""
     var dataSet = [String]()
     var currentGameLevel: Int = 0
+    var usedLetters = [String]()
     
     var displayLabel: UILabel!
     var hintLabel: UILabel!
@@ -23,9 +24,6 @@ class ViewController: UIViewController {
     
     override func loadView() {
         
-        let screenSize: CGRect = UIScreen.main.bounds
-        print(screenSize.width)
-        
         view = UIView()
         view.backgroundColor = .white
         
@@ -33,7 +31,7 @@ class ViewController: UIViewController {
         displayLabel.translatesAutoresizingMaskIntoConstraints = false
         displayLabel.text = ""
         displayLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
-        displayLabel.backgroundColor = .lightGray
+//        displayLabel.backgroundColor = .lightGray
         view.addSubview(displayLabel)
         
         hintLabel = UILabel()
@@ -44,7 +42,7 @@ class ViewController: UIViewController {
         
         let buttonsView = UIView()
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
-        buttonsView.backgroundColor = .green
+//        buttonsView.backgroundColor = .green
         view.addSubview(buttonsView)
         
         
@@ -140,11 +138,34 @@ class ViewController: UIViewController {
     }
     
     @objc func letterTapped(_ sender: UIButton) {
-        print(sender.titleLabel?.text)
+        if let letter = sender.titleLabel?.text {
+            print(letter)
+            if usedLetters.contains(letter) {
+                return
+            }
+            displayModifiedString(usedLetter: letter)
+        }
     }
     
-    func displayModifiedString() {
-        //
+    func displayModifiedString(usedLetter: String) {
+        var displayedWord = ""
+        usedLetters.append(usedLetter)
+        
+        for letter in word {
+            let letterStr = String(letter)
+            
+            if usedLetters.contains(letterStr) {
+                print("inside if =>", displayedWord)
+                displayedWord += letterStr + " "
+            } else {
+                print("inside else =>", displayedWord)
+                displayedWord += "? "
+            }
+        }
+        
+        print("displayedWord =>", displayedWord)
+        displayLabel.text = displayedWord
+        
     }
     
     func next() {
